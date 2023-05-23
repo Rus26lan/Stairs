@@ -15,9 +15,9 @@ import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-private const val POSITION_COUNT = 3
-private const val TEXTURE_COUNT = 2
-private const val STRIDE = (POSITION_COUNT
+const val POSITION_COUNT = 3
+const val TEXTURE_COUNT = 2
+const val STRIDE = (POSITION_COUNT
         + TEXTURE_COUNT) * 4
 
 class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
@@ -25,6 +25,7 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private var rotateX: Float = 0.0f
     private var rotateY: Float = 0.0f
     private var scale: Float = 1.0f
+    private var isBackground: Boolean = false
 
     private var programId = 0
     private var vertexData: FloatBuffer? = null
@@ -40,29 +41,22 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private var colorLocation = 0
     private var matrixLocation = 0
 
-    //    private val vertices = FileUtils.convertObjToArrayOfLines(context, R.raw.whofhour)
-//    private val vertices = FileUtils.convertObjToArrayWithTextures(context, R.raw.beam)
-    private val vertices = MeshGenerator.createBeam()
+    private val vertices = FileUtils.convertObjToArrayWithTextures(context, R.raw.rung)
     private var textureWood = 0
     private var textureMetal = 0
-    private var textureMetal2 = 0
+    private var textureStreet = 0
 
-//    //Triangles
-//    private val vertices = floatArrayOf(
-//        -1f, -1f, 0f, 0f, 1f,
-//        -1f, 1f, 0f, 0f, 0f,
-//        1f, -1f, 0f, 1f, 1f,
-//        -1f, 1f, 0f, 0f, 0f,
-//        1f, 1f, 0f, 1f, 0f,
-//        1f, -1f, 0f, 1f, 1f,
-//    )
+    //Triangles
+
+
+    private val finishVertices = verticesBackground + vertices
 
     init {
         vertexData = ByteBuffer
-            .allocateDirect(vertices.size * 4)
+            .allocateDirect(finishVertices.size * 4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer()
-        vertexData?.put(vertices)
+        vertexData?.put(finishVertices)
     }
 
     override fun onSurfaceCreated(arg0: GL10, arg1: EGLConfig) {
@@ -71,7 +65,7 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         textureWood = TextureUtils.loadTexture(context, R.drawable.wood);
         textureMetal = TextureUtils.loadTexture(context, R.drawable.metal)
-        textureMetal = TextureUtils.loadTexture(context, R.drawable.metal2)
+        textureStreet = TextureUtils.loadTexture(context, R.drawable.street)
         prepareProgram()
         initLocation()
 
@@ -98,6 +92,15 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     override fun onDrawFrame(arg0: GL10) {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+        if (isBackground) {
+            applyTexture(textureStreet)
+            resetMatrix()
+            glDrawArrays(
+                GL_TRIANGLES,
+                0,
+                verticesBackground.size / (POSITION_COUNT + TEXTURE_COUNT)
+            )
+        }
         applyTexture(textureWood)
         Matrix.setIdentityM(modelMatrix, 0)
         Matrix.translateM(modelMatrix, 0, 0f, 0f, -2f)
@@ -105,7 +108,11 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         Matrix.rotateM(modelMatrix, 0, rotateX * 360, 0f, 1f, 0f)
         Matrix.rotateM(modelMatrix, 0, rotateY * 360, 1f, 0f, 0f)
         bindMatrix()
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size / (POSITION_COUNT + TEXTURE_COUNT))
+        glDrawArrays(
+            GL_TRIANGLES,
+            verticesBackground.size / (POSITION_COUNT + TEXTURE_COUNT),
+            vertices.size / (POSITION_COUNT + TEXTURE_COUNT)
+        )
     }
 
 
@@ -176,6 +183,12 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private fun bindMatrix() {
         Matrix.multiplyMM(finalMatrix, 0, viewMatrix, 0, modelMatrix, 0);
         Matrix.multiplyMM(finalMatrix, 0, projectionMatrix, 0, finalMatrix, 0)
+        glUniformMatrix4fv(matrixLocation, 1, false, finalMatrix, 0)
+    }
+
+    private fun resetMatrix() {
+        Matrix.setIdentityM(finalMatrix, 0)
+        Matrix.scaleM(finalMatrix, 0, 2f, 1f, 1f)
         glUniformMatrix4fv(matrixLocation, 1, false, finalMatrix, 0)
     }
 
