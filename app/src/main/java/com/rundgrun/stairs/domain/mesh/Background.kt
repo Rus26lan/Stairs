@@ -1,12 +1,11 @@
 package com.rundgrun.stairs.domain.mesh
 
-import android.opengl.GLES20.*
+import android.opengl.GLES20
 import com.rundgrun.stairs.domain.OpenGLData
 import com.rundgrun.stairs.domain.POSITION_COUNT
 import com.rundgrun.stairs.domain.TEXTURE_COUNT
 
-
-class Rung(
+class Background(
     data: OpenGLData,
     x: Float = 0f,
     y: Float = 0f,
@@ -21,11 +20,11 @@ class Rung(
     length
 ) {
     override fun draw() {
-        applyTexture(data.textureWood)
-        glDrawArrays(
-            GL_TRIANGLES,
-            data.verticesBackground.size / (POSITION_COUNT + TEXTURE_COUNT),
-            data.verticesRung.size / (POSITION_COUNT + TEXTURE_COUNT)
+        applyTexture(data.textureBackground)
+        GLES20.glDrawArrays(
+            GLES20.GL_TRIANGLES,
+            0,
+            data.verticesBackground.size / (POSITION_COUNT + TEXTURE_COUNT)
         )
     }
 }
