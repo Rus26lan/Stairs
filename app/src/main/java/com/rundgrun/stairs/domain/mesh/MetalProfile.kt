@@ -6,7 +6,7 @@ import com.rundgrun.stairs.domain.OpenGLData
 import com.rundgrun.stairs.domain.POSITION_COUNT
 import com.rundgrun.stairs.domain.TEXTURE_COUNT
 
-class Rung(
+class MetalProfile(
     data: OpenGLData,
     x: Float = 0f,
     y: Float = 0f,
@@ -24,6 +24,7 @@ class Rung(
     xAngle,yAngle, zAngle
 ) {
     override fun draw() {
+        applyTexture(data.textureMetal)
         Matrix.setIdentityM(data.modelMatrix, 0)
         Matrix.translateM(data.modelMatrix, 0, x, y, z)
         Matrix.rotateM(data.modelMatrix, 0, xAngle , 1f, 0f, 0f)
@@ -31,11 +32,10 @@ class Rung(
         Matrix.rotateM(data.modelMatrix, 0, zAngle, 0f, 0f, 1f)
         Matrix.scaleM(data.modelMatrix, 0, xScale, yScale, zScale)
         bindMatrix()
-        applyTexture(data.textureWood)
         glDrawArrays(
             GL_TRIANGLES,
-            data.verticesBackground.size / (POSITION_COUNT + TEXTURE_COUNT),
-            data.verticesRung.size / (POSITION_COUNT + TEXTURE_COUNT)
+            (data.verticesBackground.size + data.verticesRung.size) / (POSITION_COUNT + TEXTURE_COUNT),
+            data.verticesMetalProfile.size / (POSITION_COUNT + TEXTURE_COUNT)
         )
     }
 }

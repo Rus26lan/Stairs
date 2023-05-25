@@ -10,14 +10,17 @@ class Background(
     x: Float = 0f,
     y: Float = 0f,
     z: Float = 0f,
-    height: Float = 1f,
-    width: Float = 1f,
-    length: Float = 1f
+    xScale: Float = 1f,
+    yScale: Float = 1f,
+    zScale: Float = 1f,
+    xAngle: Float = 0f,
+    yAngle: Float= 0f,
+    zAngle: Float= 0f
 ) : Mesh(
     data,
     x, y, z,
-    height, width,
-    length
+    xScale, yScale, zScale,
+    xAngle,yAngle, zAngle
 ) {
     override fun draw() {
         applyTexture(data.textureBackground)

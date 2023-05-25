@@ -9,9 +9,12 @@ abstract class Mesh(
     val x: Float,
     val y: Float,
     val z: Float,
-    val height: Float,
-    val width: Float,
-    val length: Float
+    val xScale: Float,
+    val yScale: Float,
+    val zScale: Float,
+    val xAngle: Float,
+    val yAngle: Float,
+    val zAngle: Float
 ) {
     abstract fun draw()
 

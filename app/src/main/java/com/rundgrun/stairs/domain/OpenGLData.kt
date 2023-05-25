@@ -48,8 +48,9 @@ class OpenGLData(private val context: Context) {
     )
 
     val verticesRung = FileUtils.convertObjToArrayWithTextures(context, R.raw.rung)
+    val verticesMetalProfile = FileUtils.convertObjToArrayWithTextures(context, R.raw.metal_profile)
 
-    private val finishVertices = verticesBackground + verticesRung
+    private val finishVertices = verticesBackground + verticesRung + verticesMetalProfile
 
     var vertexData: FloatBuffer? = ByteBuffer
         .allocateDirect(finishVertices.size * 4)

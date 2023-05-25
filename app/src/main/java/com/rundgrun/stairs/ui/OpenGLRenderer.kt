@@ -29,7 +29,7 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         data = OpenGLData(context)
         stairsBuilder = StairsBuilder(data)
-        meshList = stairsBuilder.getStraightLadder(StairsConfig(1f,1f,5))
+        meshList = stairsBuilder.getStraightLadder(StairsConfig(1f, 1f, 5))
         glUseProgram(data.baseProgram)
         backgroundMesh = Background(data)
         rungMesh = Rung(data)
@@ -65,7 +65,7 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         Matrix.scaleM(data.allModelMatrix, 0, data.scale, data.scale, data.scale)
         Matrix.rotateM(data.allModelMatrix, 0, data.rotateX * 360, 0f, 1f, 0f)
         Matrix.rotateM(data.allModelMatrix, 0, data.rotateY * 360, 1f, 0f, 0f)
-        meshList.forEach{
+        meshList.forEach {
             it.draw()
         }
     }
@@ -136,6 +136,6 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     fun scale(value: Float) {
-        data.scale += value
+        data.scale += value * 0.3f
     }
 }
