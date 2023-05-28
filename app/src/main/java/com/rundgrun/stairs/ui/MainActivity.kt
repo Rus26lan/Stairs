@@ -1,19 +1,15 @@
 package com.rundgrun.stairs.ui
 
-import android.annotation.SuppressLint
-import android.app.ActivityManager
-import android.opengl.GLSurfaceView
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
-import android.view.GestureDetector
-import android.view.GestureDetector.OnGestureListener
-import android.view.MotionEvent
-import android.view.ScaleGestureDetector
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rundgrun.stairs.R
 import com.rundgrun.stairs.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +20,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val iconColorStates = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_checked),
+                intArrayOf(android.R.attr.state_checked)
+            ), intArrayOf(
+                Color.parseColor("#CFCFCF"),
+                Color.parseColor("#654321")
+            )
+        )
         val navView: BottomNavigationView = binding.navView
+        navView.itemIconTintList = iconColorStates
+        navView.itemTextColor = iconColorStates
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
     }

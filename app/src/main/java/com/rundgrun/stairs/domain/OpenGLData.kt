@@ -15,11 +15,6 @@ const val STRIDE = (POSITION_COUNT
 
 class OpenGLData(private val context: Context) {
 
-    var rotateX: Float = 0.0f
-    var rotateY: Float = 0.0f
-    var scale: Float = 1.0f
-    var isBackground: Boolean = true
-
     var baseProgram = prepareBaseProgram()
 
     val positionLocation = glGetAttribLocation(baseProgram, "a_Position")

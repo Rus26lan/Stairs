@@ -1,4 +1,4 @@
-package com.rundgrun.stairs.ui
+package com.rundgrun.stairs.ui.presentation
 
 import android.content.Context
 import android.opengl.GLES20.*
@@ -17,11 +17,11 @@ import javax.microedition.khronos.opengles.GL10
 class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     lateinit var data: OpenGLData
+    var parameters: ModelParameters = ModelParameters()
     lateinit var backgroundMesh: Background
     lateinit var stairsBuilder: StairsBuilder
     lateinit var meshList: ArrayList<Mesh>
     lateinit var rungMesh: Rung
-
 
     override fun onSurfaceCreated(arg0: GL10, arg1: EGLConfig) {
         glEnable(GL_DEPTH_TEST);
@@ -56,15 +56,15 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     override fun onDrawFrame(arg0: GL10) {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
-        if (data.isBackground) {
+        if (parameters.showBackground) {
             resetMatrix()
             backgroundMesh.draw()
         }
         Matrix.setIdentityM(data.allModelMatrix, 0)
         Matrix.translateM(data.allModelMatrix, 0, 0f, 0f, -1f)
-        Matrix.scaleM(data.allModelMatrix, 0, data.scale, data.scale, data.scale)
-        Matrix.rotateM(data.allModelMatrix, 0, data.rotateX * 360, 0f, 1f, 0f)
-        Matrix.rotateM(data.allModelMatrix, 0, data.rotateY * 360, 1f, 0f, 0f)
+        Matrix.scaleM(data.allModelMatrix, 0, parameters.scaleModel, parameters.scaleModel, parameters.scaleModel)
+        Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelX * 360, 0f, 1f, 0f)
+        Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelY * 360, 1f, 0f, 0f)
         meshList.forEach {
             it.draw()
         }
@@ -128,14 +128,5 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         Matrix.setIdentityM(data.finalMatrix, 0)
         Matrix.scaleM(data.finalMatrix, 0, 2f, 1f, 1f)
         glUniformMatrix4fv(data.matrixLocation, 1, false, data.finalMatrix, 0)
-    }
-
-    fun rotate(x: Float, y: Float) {
-        data.rotateX += x
-        data.rotateY += y
-    }
-
-    fun scale(value: Float) {
-        data.scale += value * 0.3f
     }
 }

@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
-
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.rundgrun.stairs.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+    app:startDestination="@+id/navigation_dashboard">
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.rundgrun.stairs.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_configuration"
         tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.rundgrun.stairs.ui.presentation.PresentationView"
+        android:label="@string/title_presentation"
+        tools:layout="@layout/fragment_presentation" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.rundgrun.stairs.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_parameters"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
