@@ -63,13 +63,37 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
 
         bindingModel.rotateX.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val scale = 0.1f * progress
-                viewModel.scale(scale)
+                viewModel.rotateX(3.6f * progress)
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
-
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+        bindingModel.rotateY.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                viewModel.rotateY(3.6f * progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+        bindingModel.rotateZ.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                viewModel.rotateZ(3.6f * progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+        bindingModel.scale.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                viewModel.scale(0.02f * progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
@@ -100,12 +124,12 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
     }
 
     override fun onScale(detector: ScaleGestureDetector): Boolean {
-        val factor = detector.scaleFactor
-        if (factor > 1) {
-            viewModel.scale(0.02f)
-        } else {
-            viewModel.scale(-0.02f)
-        }
+//        val factor = detector.scaleFactor
+//        if (factor > 1) {
+//            viewModel.scale(0.02f)
+//        } else {
+//            viewModel.scale(-0.02f)
+//        }
         return true
     }
 
@@ -133,9 +157,10 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
         distanceX: Float,
         distanceY: Float
     ): Boolean {
-        if (!scaleDetector.isInProgress) {
-            viewModel.rotate(distanceX * 0.001f, distanceY * 0.001f, 0.0f)
-        }
+//        if (!scaleDetector.isInProgress) {
+//            viewModel.rotateX(distanceX * 0.001f)
+//            viewModel.rotateY(distanceY * 0.001f)
+//        }
         return true
     }
 

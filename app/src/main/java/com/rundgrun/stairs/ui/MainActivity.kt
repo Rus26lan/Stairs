@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
                 intArrayOf(-android.R.attr.state_checked),
                 intArrayOf(android.R.attr.state_checked)
             ), intArrayOf(
-                Color.parseColor("#CFCFCF"),
-                Color.parseColor("#654321")
+                Color.parseColor("#654321"),
+                Color.parseColor("#CFCFCF")
             )
         )
         val navView: BottomNavigationView = binding.navView

@@ -13,13 +13,20 @@ class PresentationViewModel : ViewModel() {
     }
     val parameters: LiveData<ModelParameters> = _parameters
 
-    fun rotate(x: Float, y: Float, z: Float) {
-        modelParameters.rotateModelX +=x
-        modelParameters.rotateModelY +=y
-        modelParameters.rotateModelZ +=z
+    fun rotateX(x: Float) {
+        modelParameters.rotateModelX = x
+
+    }
+
+    fun rotateY(y: Float) {
+        modelParameters.rotateModelY = y
+    }
+
+    fun rotateZ(z: Float) {
+        modelParameters.rotateModelZ = z
     }
 
     fun scale(value: Float) {
-        modelParameters.scaleModel =value
+        modelParameters.scaleModel = value
     }
 }
