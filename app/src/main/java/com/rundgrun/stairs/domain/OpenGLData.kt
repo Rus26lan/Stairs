@@ -42,6 +42,15 @@ class OpenGLData(private val context: Context) {
         1f, -1f, 0.99f, 1f, 1f,
     )
 
+    val verticesAxis = floatArrayOf(
+        0f, 0f, 0f, 0f, 0f,
+        1f, 1f, 0.99f, 0f, 0f,
+        -1f, -1f, 0.99f, 0f, 0f,
+        -1f, -1f, 0.99f, 0f, 0f,
+        1f, 1f, 0.99f, 0f, 0f,
+        1f, -1f, 0.99f, 0f, 0f,
+    )
+
     val verticesRung = FileUtils.convertObjToArrayWithTextures(context, R.raw.rung)
     val verticesMetalProfile = FileUtils.convertObjToArrayWithTextures(context, R.raw.metal_profile)
 
