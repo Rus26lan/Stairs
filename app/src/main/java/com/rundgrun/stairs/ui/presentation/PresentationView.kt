@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.rundgrun.stairs.databinding.FragmentPresentationBinding
-import com.rundgrun.stairs.databinding.ModelTranslationBinding
+import com.rundgrun.stairs.databinding.PartModelRotateBinding
 
 
 class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener,
@@ -20,7 +20,7 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
     private var _binding: FragmentPresentationBinding? = null
     private val binding get() = _binding!!
 
-    private var _bindingModel: ModelTranslationBinding? = null
+    private var _bindingModel: PartModelRotateBinding? = null
     private val bindingModel get() = _bindingModel!!
 
     private var renderer: OpenGLRenderer? = null
@@ -36,7 +36,7 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPresentationBinding.inflate(inflater, container, false)
-        _bindingModel = ModelTranslationBinding.bind(binding.root)
+        _bindingModel = PartModelRotateBinding.bind(binding.root)
         val root: View = binding.root
 
         viewModel =
@@ -56,6 +56,12 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
             scaleDetector.onTouchEvent(e)
             gestureDetector.onTouchEvent(e)
             true
+        }
+        binding.imageRotate.setOnClickListener {
+
+        }
+        binding.imageTranslate.setOnClickListener {
+
         }
         viewModel.parameters.observe(viewLifecycleOwner) {
             renderer?.parameters = it

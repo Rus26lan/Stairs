@@ -61,11 +61,11 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
             backgroundMesh.draw()
         }
         Matrix.setIdentityM(data.allModelMatrix, 0)
-        Matrix.translateM(data.allModelMatrix, 0, 0f, 0f, -1f)
+        Matrix.translateM(data.allModelMatrix, 0, parameters.moveModelX, parameters.moveModelY, -1f + parameters.moveModelZ)
         Matrix.scaleM(data.allModelMatrix, 0, parameters.scaleModel, parameters.scaleModel, parameters.scaleModel)
-        Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelX, 1f, 0f, 0f)
         Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelY, 0f, 1f, 0f)
         Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelZ, 0f, 0f, 1f)
+        Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelX, 1f, 0f, 0f)
         meshList.forEach {
             it.draw()
         }

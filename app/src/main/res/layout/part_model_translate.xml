@@ -19,16 +19,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ось X"
-            app:layout_constraintBottom_toTopOf="@+id/rotateX"
-            app:layout_constraintEnd_toEndOf="@+id/rotateX"
+            app:layout_constraintBottom_toTopOf="@+id/moveX"
+            app:layout_constraintEnd_toEndOf="@+id/moveX"
             app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="@+id/rotateX" />
+            app:layout_constraintStart_toStartOf="@+id/moveX" />
 
         <SeekBar
-            android:id="@+id/rotateX"
+            android:id="@+id/moveX"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/rotateY"
+            app:layout_constraintBottom_toTopOf="@+id/moveY"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -36,52 +36,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ось Y"
-            app:layout_constraintBottom_toTopOf="@+id/rotateY"
-            app:layout_constraintEnd_toEndOf="@+id/rotateY"
+            app:layout_constraintBottom_toTopOf="@+id/moveY"
+            app:layout_constraintEnd_toEndOf="@+id/moveY"
             app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="@+id/rotateY" />
+            app:layout_constraintStart_toStartOf="@+id/moveY" />
 
         <SeekBar
-            android:id="@+id/rotateY"
+            android:id="@+id/moveY"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/rotateZ"
-            app:layout_constraintTop_toBottomOf="@+id/rotateX"
+            app:layout_constraintBottom_toTopOf="@+id/moveZ"
+            app:layout_constraintTop_toBottomOf="@+id/moveX"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ось Z"
-            app:layout_constraintBottom_toTopOf="@+id/rotateZ"
-            app:layout_constraintEnd_toEndOf="@+id/rotateZ"
+            app:layout_constraintBottom_toTopOf="@+id/moveZ"
+            app:layout_constraintEnd_toEndOf="@+id/moveZ"
             app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="@+id/rotateZ" />
+            app:layout_constraintStart_toStartOf="@+id/moveZ" />
 
         <SeekBar
-            android:id="@+id/rotateZ"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/scale"
-            app:layout_constraintTop_toBottomOf="@+id/rotateY"
-            tools:layout_editor_absoluteX="0dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Масштаб"
-            app:layout_constraintBottom_toTopOf="@+id/scale"
-            app:layout_constraintEnd_toEndOf="@+id/scale"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="@+id/scale" />
-
-        <SeekBar
-            android:id="@+id/scale"
-            android:progress="50"
+            android:id="@+id/moveZ"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rotateZ"
+            app:layout_constraintTop_toBottomOf="@+id/moveY"
             tools:layout_editor_absoluteX="0dp" />
 
 

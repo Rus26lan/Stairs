@@ -12,20 +12,31 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <include layout="@layout/model_translation"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:id="@+id/imageRotate"
+        android:layout_width="32sp"
+        android:layout_height="32sp"
+        android:layout_marginBottom="24dp"
         android:src="@drawable/ic_rotate"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageTranslate"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageTranslate"
+        android:layout_width="32sp"
+        android:layout_height="32sp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/ic_translate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageRotate" />
+
+    <include layout="@layout/part_model_rotate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

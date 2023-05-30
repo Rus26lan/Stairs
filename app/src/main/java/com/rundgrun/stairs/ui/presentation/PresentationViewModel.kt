@@ -13,6 +13,11 @@ class PresentationViewModel : ViewModel() {
     }
     val parameters: LiveData<ModelParameters> = _parameters
 
+    private val _state = MutableLiveData<ParametersState>().apply {
+        value = ParametersState.HIDE
+    }
+    val state: LiveData<ParametersState> = _state
+
     fun rotateX(x: Float) {
         modelParameters.rotateModelX = x
 
@@ -29,4 +34,21 @@ class PresentationViewModel : ViewModel() {
     fun scale(value: Float) {
         modelParameters.scaleModel = value
     }
+
+    fun moveX(x: Float) {
+        modelParameters.moveModelX = x
+    }
+
+    fun moveY(y: Float) {
+        modelParameters.moveModelY = y
+    }
+
+    fun moveZ(z: Float) {
+        modelParameters.moveModelZ = z
+    }
+
+    fun setState(state: ParametersState){
+        va
+    }
+
 }
