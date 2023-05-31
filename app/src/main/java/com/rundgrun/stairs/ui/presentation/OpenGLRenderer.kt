@@ -78,7 +78,7 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         var bottom = -0.1f
         var top = 0.1f
         val near = 0.1f
-        val far = 8.0f
+        val far = 200.0f
         if (width > height) {
             ratio = width.toFloat() / height
             left *= ratio

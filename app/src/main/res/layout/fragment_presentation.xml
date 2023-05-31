@@ -20,6 +20,7 @@
         android:layout_width="32sp"
         android:layout_height="32sp"
         android:layout_marginBottom="24dp"
+        android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/ic_rotate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageTranslate"
@@ -31,6 +32,7 @@
         android:layout_width="32sp"
         android:layout_height="32sp"
         android:layout_marginBottom="24dp"
+        android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/ic_translate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,5 +40,6 @@
         app:layout_constraintStart_toEndOf="@+id/imageRotate" />
 
     <include layout="@layout/part_model_rotate" />
+    <include layout="@layout/part_model_translate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

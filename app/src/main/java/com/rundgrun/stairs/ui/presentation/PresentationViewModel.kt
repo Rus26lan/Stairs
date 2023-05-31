@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 class PresentationViewModel : ViewModel() {
 
     private val modelParameters = ModelParameters()
+    private var lastState = ParametersState.ROTATE
+    private var isHide: Boolean = false
 
     private val _parameters = MutableLiveData<ModelParameters>().apply {
         value = modelParameters
@@ -14,7 +16,7 @@ class PresentationViewModel : ViewModel() {
     val parameters: LiveData<ModelParameters> = _parameters
 
     private val _state = MutableLiveData<ParametersState>().apply {
-        value = ParametersState.HIDE
+        value = lastState
     }
     val state: LiveData<ParametersState> = _state
 
@@ -36,19 +38,37 @@ class PresentationViewModel : ViewModel() {
     }
 
     fun moveX(x: Float) {
-        modelParameters.moveModelX = x
+        modelParameters.moveModelX = x - 5
     }
 
     fun moveY(y: Float) {
-        modelParameters.moveModelY = y
+        modelParameters.moveModelY = y - 5
     }
 
     fun moveZ(z: Float) {
-        modelParameters.moveModelZ = z
+        modelParameters.moveModelZ = -z
     }
 
     fun setState(state: ParametersState){
-        va
+        when(state){
+            ParametersState.HIDE -> {
+                if(isHide){
+                    _state.value = lastState
+                } else{
+                    lastState = _state.value ?: ParametersState.ROTATE
+                    _state.value = state
+                }
+                isHide = !isHide
+            }
+            ParametersState.ROTATE -> {
+                lastState = state
+                _state.value = state
+            }
+            ParametersState.TRANSLATE -> {
+                lastState = state
+                _state.value = state
+            }
+        }
     }
 
 }

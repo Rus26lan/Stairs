@@ -1,4 +1,4 @@
-package com.rundgrun.stairs.ui.dashboard
+package com.rundgrun.stairs.ui.configuration
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.rundgrun.stairs.databinding.FragmentDashboardBinding
 
-class DashboardFragment : Fragment() {
+class ConfigurationFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
@@ -19,14 +19,14 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        val configurationViewModel =
+            ViewModelProvider(this).get(ConfigurationViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
+        configurationViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

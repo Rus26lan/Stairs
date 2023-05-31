@@ -5,13 +5,13 @@ import android.app.ActivityManager
 import android.os.Bundle
 import android.view.*
 import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.rundgrun.stairs.databinding.FragmentPresentationBinding
 import com.rundgrun.stairs.databinding.PartModelRotateBinding
+import com.rundgrun.stairs.databinding.PartModelTranslateBinding
 
 
 class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener,
@@ -20,8 +20,11 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
     private var _binding: FragmentPresentationBinding? = null
     private val binding get() = _binding!!
 
-    private var _bindingModel: PartModelRotateBinding? = null
-    private val bindingModel get() = _bindingModel!!
+    private var _bindingRotate: PartModelRotateBinding? = null
+    private val bindingRotate get() = _bindingRotate!!
+
+    private var _bindingTranslate: PartModelTranslateBinding? = null
+    private val bindingTranslate get() = _bindingTranslate!!
 
     private var renderer: OpenGLRenderer? = null
 
@@ -36,7 +39,8 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPresentationBinding.inflate(inflater, container, false)
-        _bindingModel = PartModelRotateBinding.bind(binding.root)
+        _bindingRotate = PartModelRotateBinding.bind(binding.root)
+        _bindingTranslate = PartModelTranslateBinding.bind(binding.root)
         val root: View = binding.root
 
         viewModel =
@@ -58,50 +62,59 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
             true
         }
         binding.imageRotate.setOnClickListener {
-
+            viewModel.setState(ParametersState.ROTATE)
         }
         binding.imageTranslate.setOnClickListener {
-
+            viewModel.setState(ParametersState.TRANSLATE)
         }
+
         viewModel.parameters.observe(viewLifecycleOwner) {
             renderer?.parameters = it
         }
 
-        bindingModel.rotateX.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.rotateX(3.6f * progress)
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                ParametersState.ROTATE -> {
+                    bindingRotate.modelRotate.visibility = View.VISIBLE
+                    bindingTranslate.modelTranslate.visibility = View.GONE
+                    binding.imageRotate.visibility = View.VISIBLE
+                    binding.imageTranslate.visibility = View.VISIBLE
+                }
+                ParametersState.TRANSLATE -> {
+                    bindingRotate.modelRotate.visibility = View.GONE
+                    bindingTranslate.modelTranslate.visibility = View.VISIBLE
+                    binding.imageRotate.visibility = View.VISIBLE
+                    binding.imageTranslate.visibility = View.VISIBLE
+                }
+                ParametersState.HIDE -> {
+                    bindingRotate.modelRotate.visibility = View.GONE
+                    bindingTranslate.modelTranslate.visibility = View.GONE
+                    binding.imageRotate.visibility = View.GONE
+                    binding.imageTranslate.visibility = View.GONE
+                }
             }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
+        }
+
+        bindingRotate.rotateX.setOnSeekBarChangeListener(SeekBarAdapter{
+                viewModel.rotateX(3.6f * it)
         })
-        bindingModel.rotateY.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.rotateY(3.6f * progress)
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
+        bindingRotate.rotateY.setOnSeekBarChangeListener(SeekBarAdapter{
+                viewModel.rotateY(3.6f * it)
         })
-        bindingModel.rotateZ.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.rotateZ(3.6f * progress)
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
+        bindingRotate.rotateZ.setOnSeekBarChangeListener(SeekBarAdapter{
+                viewModel.rotateZ(3.6f * it)
         })
-        bindingModel.scale.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                viewModel.scale(0.02f * progress)
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
+        bindingRotate.scale.setOnSeekBarChangeListener(SeekBarAdapter{
+                viewModel.scale(0.02f * it)
+        })
+        bindingTranslate.moveX.setOnSeekBarChangeListener(SeekBarAdapter{
+                viewModel.moveX(0.2f * it)
+        })
+        bindingTranslate.moveY.setOnSeekBarChangeListener(SeekBarAdapter{
+                viewModel.moveY(0.2f * it)
+        })
+        bindingTranslate.moveZ.setOnSeekBarChangeListener(SeekBarAdapter{
+                viewModel.moveZ(0.1f * it)
         })
         return root
     }
@@ -119,7 +132,8 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        _bindingModel = null
+        _bindingRotate = null
+        _bindingTranslate = null
     }
 
     private fun supportES2(): Boolean {
@@ -130,12 +144,7 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
     }
 
     override fun onScale(detector: ScaleGestureDetector): Boolean {
-//        val factor = detector.scaleFactor
-//        if (factor > 1) {
-//            viewModel.scale(0.02f)
-//        } else {
-//            viewModel.scale(-0.02f)
-//        }
+
         return true
     }
 
@@ -171,10 +180,7 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
     }
 
     override fun onLongPress(e: MotionEvent) {
-        when(bindingModel.modelTranslation.visibility){
-            View.GONE -> bindingModel.modelTranslation.visibility = View.VISIBLE
-            View.VISIBLE -> bindingModel.modelTranslation.visibility = View.GONE
-        }
+        viewModel.setState(ParametersState.HIDE)
     }
 
     override fun onFling(
