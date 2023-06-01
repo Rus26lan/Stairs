@@ -9,7 +9,7 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.rundgrun.stairs.ui.configuration.ConfigurationFragment"
         android:label="@string/title_configuration"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_configuration" />
 
     <fragment
         android:id="@+id/navigation_home"
