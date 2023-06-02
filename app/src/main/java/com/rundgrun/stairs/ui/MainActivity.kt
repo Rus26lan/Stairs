@@ -8,18 +8,27 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rundgrun.stairs.R
+import com.rundgrun.stairs.data.ImplStairsConfigRepository
 import com.rundgrun.stairs.databinding.ActivityMainBinding
+import com.rundgrun.stairs.domain.repository.StairsConfigRepository
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    @Inject lateinit var stairsConfigRepository: ImplStairsConfigRepository
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+//        print(stairsConfigRepository)
 
         val iconColorStates = ColorStateList(
             arrayOf(

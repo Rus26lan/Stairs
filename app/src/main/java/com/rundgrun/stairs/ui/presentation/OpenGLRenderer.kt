@@ -4,24 +4,28 @@ import android.content.Context
 import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import com.rundgrun.stairs.data.ImplStairsConfigRepository
 import com.rundgrun.stairs.domain.*
 import com.rundgrun.stairs.domain.builder.StairsBuilder
 import com.rundgrun.stairs.domain.builder.StairsConfig
 import com.rundgrun.stairs.domain.mesh.Background
 import com.rundgrun.stairs.domain.mesh.Mesh
 import com.rundgrun.stairs.domain.mesh.Rung
+import com.rundgrun.stairs.domain.repository.StairsConfigRepository
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-
-class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
+class OpenGLRenderer (private val context: Context) : GLSurfaceView.Renderer {
 
     lateinit var data: OpenGLData
     var parameters: ModelParameters = ModelParameters()
     lateinit var backgroundMesh: Background
     lateinit var stairsBuilder: StairsBuilder
+    lateinit var stairsConfigRepository: StairsConfigRepository
     lateinit var meshList: ArrayList<Mesh>
-    lateinit var rungMesh: Rung
 
     override fun onSurfaceCreated(arg0: GL10, arg1: EGLConfig) {
         glEnable(GL_DEPTH_TEST);
@@ -29,10 +33,9 @@ class OpenGLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         data = OpenGLData(context)
         stairsBuilder = StairsBuilder(data)
-        meshList = stairsBuilder.getStraightLadder(StairsConfig(1f, 1f, 5))
+        meshList = stairsBuilder.getStraightLadder(stairsConfigRepository.getStairsConfig())
         glUseProgram(data.baseProgram)
         backgroundMesh = Background(data)
-        rungMesh = Rung(data)
 
         glVertexAttribPointer(
             data.positionLocation, POSITION_COUNT, GL_FLOAT,
