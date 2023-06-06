@@ -8,11 +8,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-//@Module
-//@InstallIn(SingletonComponent::class)
+@Module
+@InstallIn(SingletonComponent::class)
 abstract class StairsConfigModule {
 
-//    @Binds
-//    @Singleton
+    @Binds
+    @Singleton
     abstract fun getStairsConfigRepository(stairsConfigRepository: ImplStairsConfigRepository): StairsConfigRepository
 }

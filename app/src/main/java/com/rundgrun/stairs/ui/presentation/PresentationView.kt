@@ -4,16 +4,17 @@ import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.os.Bundle
 import android.view.*
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.rundgrun.stairs.databinding.FragmentPresentationBinding
 import com.rundgrun.stairs.databinding.PartModelRotateBinding
 import com.rundgrun.stairs.databinding.PartModelTranslateBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener,
     GestureDetector.OnGestureListener {
 
@@ -26,12 +27,12 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
     private var _bindingTranslate: PartModelTranslateBinding? = null
     private val bindingTranslate get() = _bindingTranslate!!
 
-    private var renderer: OpenGLRenderer? = null
+    private val viewModel: PresentationViewModel by viewModels()
+
+    @Inject lateinit var renderer: OpenGLRenderer
 
     private lateinit var gestureDetector: GestureDetector
     private lateinit var scaleDetector: ScaleGestureDetector
-    private lateinit var viewModel: PresentationViewModel
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,18 +44,13 @@ class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener
         _bindingTranslate = PartModelTranslateBinding.bind(binding.root)
         val root: View = binding.root
 
-        viewModel =
-            ViewModelProvider(this)[PresentationViewModel::class.java]
-
         if (!supportES2()) {
             Toast.makeText(requireContext(), "Not supported!", Toast.LENGTH_LONG).show()
         }
 
         gestureDetector = GestureDetector(requireContext(), this)
         scaleDetector = ScaleGestureDetector(requireContext(), this)
-
         binding.glSurfaceView.setEGLContextClientVersion(2)
-        renderer = OpenGLRenderer(requireContext())
         binding.glSurfaceView.setRenderer(renderer)
         binding.glSurfaceView.setOnTouchListener { _, e ->
             scaleDetector.onTouchEvent(e)

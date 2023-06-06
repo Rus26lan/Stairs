@@ -14,23 +14,26 @@ import com.rundgrun.stairs.domain.mesh.Rung
 import com.rundgrun.stairs.domain.repository.StairsConfigRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class OpenGLRenderer (private val context: Context) : GLSurfaceView.Renderer {
+class OpenGLRenderer @Inject constructor(
+    @ActivityContext val context: Context
+    ) : GLSurfaceView.Renderer {
 
     lateinit var data: OpenGLData
     var parameters: ModelParameters = ModelParameters()
     lateinit var backgroundMesh: Background
     lateinit var stairsBuilder: StairsBuilder
-    lateinit var stairsConfigRepository: StairsConfigRepository
+    @Inject lateinit var stairsConfigRepository: StairsConfigRepository
     lateinit var meshList: ArrayList<Mesh>
 
     override fun onSurfaceCreated(arg0: GL10, arg1: EGLConfig) {
         glEnable(GL_DEPTH_TEST);
         glClearColor(1f, 1f, 1f, 1f)
-
         data = OpenGLData(context)
         stairsBuilder = StairsBuilder(data)
         meshList = stairsBuilder.getStraightLadder(stairsConfigRepository.getStairsConfig())
@@ -64,8 +67,20 @@ class OpenGLRenderer (private val context: Context) : GLSurfaceView.Renderer {
             backgroundMesh.draw()
         }
         Matrix.setIdentityM(data.allModelMatrix, 0)
-        Matrix.translateM(data.allModelMatrix, 0, parameters.moveModelX, parameters.moveModelY, -1f + parameters.moveModelZ)
-        Matrix.scaleM(data.allModelMatrix, 0, parameters.scaleModel, parameters.scaleModel, parameters.scaleModel)
+        Matrix.translateM(
+            data.allModelMatrix,
+            0,
+            parameters.moveModelX,
+            parameters.moveModelY,
+            -1f + parameters.moveModelZ
+        )
+        Matrix.scaleM(
+            data.allModelMatrix,
+            0,
+            parameters.scaleModel,
+            parameters.scaleModel,
+            parameters.scaleModel
+        )
         Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelY, 0f, 1f, 0f)
         Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelZ, 0f, 0f, 1f)
         Matrix.rotateM(data.allModelMatrix, 0, parameters.rotateModelX, 1f, 0f, 0f)
