@@ -23,12 +23,12 @@ import javax.microedition.khronos.opengles.GL10
 class OpenGLRenderer @Inject constructor(
     @ActivityContext val context: Context
     ) : GLSurfaceView.Renderer {
+    @Inject lateinit var stairsConfigRepository: StairsConfigRepository
 
     lateinit var data: OpenGLData
     var parameters: ModelParameters = ModelParameters()
     lateinit var backgroundMesh: Background
     lateinit var stairsBuilder: StairsBuilder
-    @Inject lateinit var stairsConfigRepository: StairsConfigRepository
     lateinit var meshList: ArrayList<Mesh>
 
     override fun onSurfaceCreated(arg0: GL10, arg1: EGLConfig) {

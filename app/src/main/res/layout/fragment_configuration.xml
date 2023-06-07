@@ -16,11 +16,27 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Высота"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Ширина"
+                android:inputType="number" />
+
+            <EditText
                 android:id="@+id/rung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Ступеньки"
+                android:hint="Кол-во ступенек"
                 android:inputType="number" />
 
             <Button

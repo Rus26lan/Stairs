@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class PresentationView : Fragment(), ScaleGestureDetector.OnScaleGestureListener,
+class PresentationFragment : Fragment(), ScaleGestureDetector.OnScaleGestureListener,
     GestureDetector.OnGestureListener {
 
     private var _binding: FragmentPresentationBinding? = null

@@ -3,11 +3,15 @@ package com.rundgrun.stairs.ui.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.rundgrun.stairs.domain.builder.StairsConfig
+import com.rundgrun.stairs.domain.usecase.GetStairsConfigUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PresentationViewModel @Inject constructor(): ViewModel() {
+class PresentationViewModel @Inject constructor(
+    var getStairsConfigUseCase: GetStairsConfigUseCase
+) : ViewModel() {
 
     private val modelParameters = ModelParameters()
     private var lastState = ParametersState.ROTATE
@@ -23,9 +27,14 @@ class PresentationViewModel @Inject constructor(): ViewModel() {
     }
     val state: LiveData<ParametersState> = _state
 
+    private val _stairsConfig = MutableLiveData<StairsConfig>().apply {
+        value = getStairsConfigUseCase.execute()
+    }
+    val stairsConfig: LiveData<StairsConfig> = _stairsConfig
+
+
     fun rotateX(x: Float) {
         modelParameters.rotateModelX = x
-
     }
 
     fun rotateY(y: Float) {
@@ -52,12 +61,12 @@ class PresentationViewModel @Inject constructor(): ViewModel() {
         modelParameters.moveModelZ = -z
     }
 
-    fun setState(state: ParametersState){
-        when(state){
+    fun setState(state: ParametersState) {
+        when (state) {
             ParametersState.HIDE -> {
-                if(isHide){
+                if (isHide) {
                     _state.value = lastState
-                } else{
+                } else {
                     lastState = _state.value ?: ParametersState.ROTATE
                     _state.value = state
                 }
@@ -73,5 +82,4 @@ class PresentationViewModel @Inject constructor(): ViewModel() {
             }
         }
     }
-
 }

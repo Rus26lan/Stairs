@@ -7,7 +7,13 @@ import javax.inject.Singleton
 
 @Singleton
 class ImplStairsConfigRepository @Inject constructor(): StairsConfigRepository  {
+
+    var currentStairsConfig: StairsConfig = StairsConfig(1f, 1f, 5)
+
     override fun getStairsConfig(): StairsConfig {
-        return StairsConfig(1f, 1f, 5)
+        return currentStairsConfig
+    }
+    override fun setStairsConfig(stairsConfig: StairsConfig){
+        currentStairsConfig = stairsConfig
     }
 }

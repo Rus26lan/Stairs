@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.rundgrun.stairs.ui.presentation.PresentationView"
+        android:name="com.rundgrun.stairs.ui.presentation.PresentationFragment"
         android:label="@string/title_presentation"
         tools:layout="@layout/fragment_presentation" />
 
