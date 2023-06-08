@@ -3,6 +3,7 @@ package com.rundgrun.stairs.domain.builder
 import com.rundgrun.stairs.domain.OpenGLData
 import com.rundgrun.stairs.domain.mesh.Mesh
 import com.rundgrun.stairs.domain.mesh.MetalProfile
+import com.rundgrun.stairs.domain.mesh.Railing
 import com.rundgrun.stairs.domain.mesh.Rung
 
 class StairsBuilder(val data: OpenGLData) {
@@ -17,8 +18,8 @@ class StairsBuilder(val data: OpenGLData) {
 
         val rungIntervalHeight = height / steps
         val rungIntervalLanding = landing / steps
-        var startXRung = -landing/2
-        var startYRung = -height/2
+        var startXRung = -landing / 2
+        var startYRung = -height / 2
 
         for (i in 0 until stairsConfig.steps) {
             meshList.add(
@@ -61,6 +62,17 @@ class StairsBuilder(val data: OpenGLData) {
 //                    zAngle = 90f
 //                )
 //            )
+            meshList.add(
+                Railing(
+                    data,
+                    x = startXRung,
+                    y = startYRung + 2f,
+                    z = rungLanding * 3,
+                    xScale = 0.2f,
+                    yScale = 3f,
+                    zScale = 0.2f,
+                )
+            )
             startXRung += rungIntervalLanding
             startYRung += rungIntervalHeight
         }
